@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" role="img" aria-labelledby="title desc">
+<title id="title">Mac Resource Check dashboard overview</title>
+<desc id="desc">Illustration of the dashboard using synthetic CPU, memory, and power data. This is an interface overview, not a captured screenshot.</desc>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#252b2b}.muted{fill:#63706c}.tiny{font-size:12px}.small{font-size:14px}.label{font-size:13px}.heading{font-size:18px;font-weight:600}.value{font-size:28px;font-weight:600}</style>
+<rect width="1280" height="800" fill="#f5f5f3"/>
+<rect x="36" y="32" width="44" height="44" rx="9" fill="#334743" stroke="none"/>
+<path d="M47 64h22m-19-6V46m8 12V40m8 18v-8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+<text x="94" y="45" class="tiny muted">RESOURCE DIAGNOSTICS · 2.1.0</text>
+<text x="94" y="74" class="value">Mac Resource Check</text>
+<text x="36" y="106" class="small muted">12-second sample · 119 processes · illustrative sample data</text>
+<rect x="943" y="42" width="127" height="34" rx="9" fill="#fff" stroke="#dce0db"/>
+<text x="958" y="64" class="label">Scan options</text>
+<rect x="1080" y="42" width="164" height="34" rx="8" fill="#252b2b" stroke="none"/>
+<text x="1095" y="64" class="label" style="fill:#fff">Export this list</text>
+<rect x="36" y="126" width="1208" height="35" rx="6" fill="#f0f1ee" stroke="#dce0db"/>
+<text x="49" y="149" class="label muted">Demo · Synthetic sample data. This page does not scan your Mac.</text>
+<rect x="36" y="178" width="106" height="32" rx="6" fill="#252b2b" stroke="none"/>
+<text x="48" y="199" class="label" style="fill:#fff">Overview</text>
+<text x="169" y="199" class="label" style="fill:#63706c">Apps &amp; processes</text>
+<text x="347" y="199" class="label" style="fill:#63706c">History &amp; changes</text>
+<text x="524" y="199" class="label" style="fill:#63706c">Preferences &amp; guide</text>
+<text x="1131" y="199" class="tiny muted">5 saved scans</text>
+<rect x="36" y="227" width="188" height="118" rx="9" fill="#fff" stroke="#dce0db"/>
+<circle cx="52" cy="246" r="3" fill="#b65b31"/>
+<text x="60" y="251" class="tiny muted">CPU · all cores</text>
+<text x="50" y="294" class="value">22.2%</text>
+<text x="50" y="323" class="tiny muted">10 logical cores</text>
+<rect x="240" y="227" width="188" height="118" rx="9" fill="#fff" stroke="#dce0db"/>
+<circle cx="256" cy="246" r="3" fill="#756292"/>
+<text x="264" y="251" class="tiny muted">Memory pressure</text>
+<text x="254" y="294" class="value">Normal</text>
+<text x="254" y="323" class="tiny muted">18.0 / 32.0 GiB used</text>
+<rect x="444" y="227" width="188" height="118" rx="9" fill="#fff" stroke="#dce0db"/>
+<circle cx="460" cy="246" r="3" fill="#2c7a70"/>
+<text x="468" y="251" class="tiny muted">Power &amp; sleep</text>
+<text x="458" y="294" class="value">76%</text>
+<text x="458" y="323" class="tiny muted">Battery power</text>
+<rect x="648" y="227" width="188" height="118" rx="9" fill="#fff" stroke="#dce0db"/>
+<circle cx="664" cy="246" r="3" fill="#386c70"/>
+<text x="672" y="251" class="tiny muted">Startup disk</text>
+<text x="662" y="294" class="value">438 GiB</text>
+<text x="662" y="323" class="tiny muted">54% used</text>
+<rect x="852" y="227" width="188" height="118" rx="9" fill="#fff" stroke="#dce0db"/>
+<circle cx="868" cy="246" r="3" fill="#756292"/>
+<text x="876" y="251" class="tiny muted">Swap activity</text>
+<text x="866" y="294" class="value">0 B/s</text>
+<text x="866" y="323" class="tiny muted">No transfers observed</text>
+<rect x="1056" y="227" width="188" height="118" rx="9" fill="#fff" stroke="#dce0db"/>
+<circle cx="1072" cy="246" r="3" fill="#2c7a70"/>
+<text x="1080" y="251" class="tiny muted">Network</text>
+<text x="1070" y="294" class="value">1.20 MiB/s</text>
+<text x="1070" y="323" class="tiny muted">Upload 142 KiB/s</text>
+<rect x="36" y="362" width="1208" height="150" rx="9" fill="#f0f1ee" stroke="#dce0db"/>
+<text x="54" y="392" class="heading">What to check first</text>
+<text x="811" y="392" class="small muted">High usage can be expected during useful work</text>
+<rect x="54" y="407" width="1172" height="87" rx="9" fill="#fff" stroke="#dce0db"/>
+<text x="71" y="435" class="heading">Xcode</text>
+<rect x="145" y="418" width="49" height="22" rx="11" fill="#fff" stroke="#dce0db"/>
+<text x="157" y="434" class="tiny" style="fill:#aa3439">High</text>
+<text x="71" y="461" class="small muted">128% average CPU · 1.81 GiB footprint · sustained CPU</text>
+<text x="569" y="435" class="small">Check for an active build or background task.</text>
+<text x="569" y="461" class="small muted">Pause an unused task, then compare another scan.</text>
+<rect x="36" y="529" width="392" height="216" rx="9" fill="#fff" stroke="#dce0db"/>
+<text x="54" y="559" class="heading">CPU leaders</text>
+<text x="54" y="580" class="tiny muted">Average · one core = 100%</text>
+<text x="54" y="607" class="small">Xcode</text>
+<text x="328" y="607" class="tiny muted">128%</text>
+<rect x="54" y="615" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="54" y="615" width="356" height="5" rx="2" fill="#b65b31" stroke="none"/>
+<text x="54" y="641" class="small">Safari</text>
+<text x="328" y="641" class="tiny muted">30%</text>
+<rect x="54" y="649" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="54" y="649" width="85.44" height="5" rx="2" fill="#b65b31" stroke="none"/>
+<text x="54" y="675" class="small">Photos</text>
+<text x="328" y="675" class="tiny muted">12%</text>
+<rect x="54" y="683" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="54" y="683" width="35.6" height="5" rx="2" fill="#b65b31" stroke="none"/>
+<text x="54" y="709" class="small">Music</text>
+<text x="328" y="709" class="tiny muted">6%</text>
+<rect x="54" y="717" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="54" y="717" width="17.8" height="5" rx="2" fill="#b65b31" stroke="none"/>
+<rect x="444" y="529" width="392" height="216" rx="9" fill="#fff" stroke="#dce0db"/>
+<text x="462" y="559" class="heading">Memory leaders</text>
+<text x="462" y="580" class="tiny muted">Physical footprint</text>
+<text x="462" y="607" class="small">Safari</text>
+<text x="736" y="607" class="tiny muted">2.34 GiB</text>
+<rect x="462" y="615" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="462" y="615" width="356" height="5" rx="2" fill="#756292" stroke="none"/>
+<text x="462" y="641" class="small">Xcode</text>
+<text x="736" y="641" class="tiny muted">1.81 GiB</text>
+<rect x="462" y="649" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="462" y="649" width="274.12" height="5" rx="2" fill="#756292" stroke="none"/>
+<text x="462" y="675" class="small">Photos</text>
+<text x="736" y="675" class="tiny muted">950 MiB</text>
+<rect x="462" y="683" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="462" y="683" width="142.4" height="5" rx="2" fill="#756292" stroke="none"/>
+<text x="462" y="709" class="small">Music</text>
+<text x="736" y="709" class="tiny muted">380 MiB</text>
+<rect x="462" y="717" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="462" y="717" width="56.96" height="5" rx="2" fill="#756292" stroke="none"/>
+<rect x="852" y="529" width="392" height="216" rx="9" fill="#fff" stroke="#dce0db"/>
+<text x="870" y="559" class="heading">Power proxy leaders</text>
+<text x="870" y="580" class="tiny muted">Relative score · not watts</text>
+<text x="870" y="607" class="small">Xcode</text>
+<text x="1144" y="607" class="tiny muted">129</text>
+<rect x="870" y="615" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="870" y="615" width="356" height="5" rx="2" fill="#2c7a70" stroke="none"/>
+<text x="870" y="641" class="small">Safari</text>
+<text x="1144" y="641" class="tiny muted">31</text>
+<rect x="870" y="649" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="870" y="649" width="85.44" height="5" rx="2" fill="#2c7a70" stroke="none"/>
+<text x="870" y="675" class="small">Photos</text>
+<text x="1144" y="675" class="tiny muted">13</text>
+<rect x="870" y="683" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="870" y="683" width="35.6" height="5" rx="2" fill="#2c7a70" stroke="none"/>
+<text x="870" y="709" class="small">Music</text>
+<text x="1144" y="709" class="tiny muted">7</text>
+<rect x="870" y="717" width="356" height="5" rx="2" fill="#f0f1ee" stroke="none"/>
+<rect x="870" y="717" width="19.580000000000002" height="5" rx="2" fill="#2c7a70" stroke="none"/>
+<text x="36" y="777" class="tiny muted">Read-only collection · local reports · no runtime installation</text>
+<text x="935" y="777" class="tiny muted">Interface overview / synthetic data</text>
+</svg>

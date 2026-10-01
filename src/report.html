@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Mac Resource Check</title>
+    <style>
+      __STYLES__
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to dashboard</a>
+    <main class="wrap" id="main-content">
+      <header class="masthead">
+        <div class="brand">
+          <div class="mark" aria-hidden="true">
+            <svg viewBox="0 0 28 28">
+              <path
+                d="M3 22h22M6 17V9m8 8V5m8 12v-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="eyebrow">Resource diagnostics · __VERSION__</p>
+            <h1>Mac Resource Check</h1>
+            <p class="sub" id="timestamp"></p>
+          </div>
+        </div>
+        <div class="tools">
+          <span id="live"></span><button class="button" id="rescan">Scan options</button
+          ><button class="button primary" id="export-list">Export this list</button>
+        </div>
+      </header>
+      <div id="demo-note" class="demo-note" role="note" hidden>
+        Demo · Synthetic sample data. This page does not scan your Mac.
+      </div>
+      <div class="freshness" id="freshness" role="status"></div>
+      <div id="warnings" role="status"></div>
+      <nav class="main-nav" aria-label="Dashboard sections">
+        <button data-page="overview" class="active">Overview</button
+        ><button data-page="investigate">Apps &amp; processes</button
+        ><button data-page="history">History &amp; changes</button
+        ><button data-page="settings">Preferences &amp; guide</button
+        ><span id="scan-count" class="small"></span>
+      </nav>
+      <section class="summary" aria-label="System overview">
+        <article class="card">
+          <p class="card-label"><span class="dot cpu"></span>CPU · all cores</p>
+          <div class="big" id="cpu-total"></div>
+          <p class="detail" id="cpu-detail"></p>
+          <div id="cpu-spark" class="spark"></div>
+        </article>
+        <article class="card">
+          <p class="card-label"><span class="dot memory"></span>Memory pressure</p>
+          <div class="big" id="pressure"></div>
+          <p class="detail" id="memory-detail"></p>
+          <p class="detail" id="swap-detail"></p>
+        </article>
+        <article class="card">
+          <p class="card-label"><span class="dot energy"></span>Power &amp; sleep</p>
+          <div class="big" id="battery"></div>
+          <p class="detail" id="power-detail"></p>
+          <p class="detail" id="sleep-detail"></p>
+        </article>
+        <article class="card">
+          <p class="card-label"><span class="dot disk"></span>Startup disk available</p>
+          <div class="big" id="disk-free"></div>
+          <p class="detail" id="disk-detail"></p>
+          <div class="track"><span id="disk-track"></span></div>
+        </article>
+        <article class="card">
+          <p class="card-label"><span class="dot memory"></span>Swap activity</p>
+          <div class="big" id="swap-rate"></div>
+          <p class="detail" id="swap-rate-detail"></p>
+          <p class="detail">Current transfers, separate from swap already used</p>
+        </article>
+        <article class="card">
+          <p class="card-label"><span class="dot energy"></span>Network · physical interfaces</p>
+          <div class="big" id="network-rate"></div>
+          <p class="detail" id="network-detail"></p>
+          <p class="detail" id="io-detail"></p>
+        </article>
+      </section>
+      <section data-view="overview" id="overview-view">
+        <article class="focus">
+          <div class="section-top">
+            <h2>What to check first</h2>
+            <span class="small">High usage can be expected during useful work</span>
+          </div>
+          <div id="health" class="health"></div>
+          <div class="focus-grid" id="focus"></div>
+        </article>
+        <div class="charts">
+          <article class="card chart">
+            <div class="section-top">
+              <h2>CPU leaders</h2>
+              <button class="quiet" data-jump-sort="cpu">Explore CPU</button>
+            </div>
+            <p class="small">Average CPU · 100% equals one core</p>
+            <div class="bars cpu" id="cpu-chart"></div>
+          </article>
+          <article class="card chart">
+            <div class="section-top">
+              <h2>Memory leaders</h2>
+              <button class="quiet" data-jump-sort="memory">Explore memory</button>
+            </div>
+            <p class="small">Footprint includes compressed allocations</p>
+            <div class="bars memory" id="memory-chart"></div>
+          </article>
+          <article class="card chart">
+            <div class="section-top">
+              <h2>Power proxy leaders</h2>
+              <button class="quiet" data-jump-sort="energy">Explore power</button>
+            </div>
+            <p class="small">Relative CPU + idle-wakeup score, not watts</p>
+            <div class="bars energy" id="energy-chart"></div>
+          </article>
+        </div>
+        <div class="two-col">
+          <article class="card">
+            <div class="section-top">
+              <h2>Inside this sample</h2>
+              <span id="sample-quality" class="small"></span>
+            </div>
+            <div id="sample-chart"></div>
+            <div class="key-stats" id="sample-stats"></div>
+          </article>
+          <article class="card">
+            <h2>System context</h2>
+            <div id="system-context" class="key-stats"></div>
+            <details class="notes">
+              <summary>Network and disk interface details</summary>
+              <div id="interface-details"></div>
+            </details>
+          </article>
+        </div>
+      </section>
+      <section data-view="investigate" id="investigate-view" hidden>
+        <article class="list">
+          <div class="list-head">
+            <div class="section-top">
+              <div>
+                <h2 id="list-title">Apps &amp; services</h2>
+                <p class="small">
+                  Inspect a row for trends, helper processes, and suggested next steps.
+                </p>
+              </div>
+              <span class="small" id="count"></span>
+            </div>
+            <div class="list-toolbar">
+              <div class="tabs" aria-label="Process scope">
+                <button data-mode="all" class="active">Apps &amp; services</button
+                ><button data-mode="mine">My apps</button
+                ><button data-mode="processes">Processes</button>
+              </div>
+              <div class="filters">
+                <label class="sr-only" for="search">Search app, service, path, or PID</label
+                ><input id="search" placeholder="Search name, path, or PID" /><label
+                  class="sr-only"
+                  for="category"
+                  >Category</label
+                ><select id="category">
+                  <option value="all">All categories</option>
+                  <option>Browser</option>
+                  <option>Communication</option>
+                  <option>Development</option>
+                  <option>Media</option>
+                  <option>Productivity</option>
+                  <option>System service</option>
+                  <option>Other app</option>
+                  <option>Background task</option></select
+                ><label class="sr-only" for="sort">Sort by</label
+                ><select id="sort">
+                  <option value="priority">Review priority</option>
+                  <option value="cpu">Average CPU</option>
+                  <option value="peakCPU">Peak CPU</option>
+                  <option value="memory">Memory</option>
+                  <option value="memoryDelta">Memory change vs baseline</option>
+                  <option value="energy">Power proxy</option>
+                  <option value="wakeups">Wakeups</option>
+                  <option value="threads">Threads</option>
+                  <option value="sleep">Sleep blockers</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-line">
+              <label class="check"><input type="checkbox" id="flagged" />Needs review</label
+              ><label class="check"><input type="checkbox" id="pinned-only" />Pinned only</label
+              ><label class="check"
+                ><input type="checkbox" id="hide-system" />Hide system services</label
+              ><label class="check"
+                ><input type="checkbox" id="hide-idle" />Hide very light usage</label
+              ><button class="link-button" id="reset-filters">Reset filters</button
+              ><span class="small" id="baseline-label"></span>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <caption class="sr-only">
+                Resource usage and recommendations
+              </caption>
+              <thead>
+                <tr>
+                  <th><span class="sr-only">Pin</span></th>
+                  <th>App / service</th>
+                  <th><button data-sort="priority">Priority</button></th>
+                  <th><button data-sort="cpu">CPU average</button></th>
+                  <th><button data-sort="memory">Memory</button></th>
+                  <th><button data-sort="memoryDelta">Change</button></th>
+                  <th><button data-sort="energy">Power proxy</button></th>
+                  <th><button data-sort="wakeups">Wakeups / s</button></th>
+                  <th><button data-sort="threads">Threads</button></th>
+                  <th><button data-sort="sleep">Sleep</button></th>
+                  <th>Next step</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="list-foot">
+            <span class="small" id="showing" aria-live="polite"></span
+            ><button class="quiet" id="more">Show 50 more</button>
+          </div>
+        </article>
+      </section>
+      <section data-view="history" id="history-view" hidden>
+        <article class="card">
+          <div class="section-top">
+            <div>
+              <h2>History &amp; changes</h2>
+              <p class="small">
+                Each point is a scan. Watch mode adds new scans; reopening the script also builds
+                history.
+              </p>
+            </div>
+            <div class="filters">
+              <label for="baseline" class="small">Compare with</label
+              ><select id="baseline"></select
+              ><button class="quiet" id="import-baseline">Import another snapshot</button
+              ><input id="baseline-file" type="file" accept=".json,application/json" hidden />
+            </div>
+          </div>
+          <p id="comparison-note" class="small"></p>
+          <div class="two-col history-charts">
+            <div>
+              <h3>Overall CPU</h3>
+              <div id="history-cpu"></div>
+            </div>
+            <div>
+              <h3>Reported memory used</h3>
+              <div id="history-memory"></div>
+            </div>
+          </div>
+          <div class="key-stats" id="comparison-stats"></div>
+        </article>
+        <div class="two-col">
+          <article class="card">
+            <h2>Largest increases in memory</h2>
+            <div id="memory-changes" class="change-list"></div>
+          </article>
+          <article class="card">
+            <h2>Largest increases in CPU</h2>
+            <div id="cpu-changes" class="change-list"></div>
+          </article>
+        </div>
+        <article class="card">
+          <div class="section-top">
+            <h2>Saved scans</h2>
+            <button class="quiet" id="export-history">Export history</button>
+          </div>
+          <div class="table-scroll">
+            <table class="compact">
+              <thead>
+                <tr>
+                  <th>Captured</th>
+                  <th>CPU</th>
+                  <th>Memory used</th>
+                  <th>Pressure</th>
+                  <th>Swap used</th>
+                  <th>Sample</th>
+                  <th>Compare</th>
+                </tr>
+              </thead>
+              <tbody id="history-rows"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+      <section data-view="settings" id="settings-view" hidden>
+        <div class="two-col">
+          <article class="card">
+            <h2>Review thresholds</h2>
+            <p class="small">
+              Choose what deserves attention. Badges and suggestions update immediately;
+              measurements stay the same.
+            </p>
+            <div class="setting-grid">
+              <label
+                >CPU average (%)<input
+                  id="threshold-cpu"
+                  type="number"
+                  min="1"
+                  max="10000"
+                  step="1" /></label
+              ><label
+                >Memory footprint (MiB)<input
+                  id="threshold-memory"
+                  type="number"
+                  min="1"
+                  max="1048576"
+                  step="1" /></label
+              ><label
+                >Power proxy score<input
+                  id="threshold-energy"
+                  type="number"
+                  min="1"
+                  max="10000"
+                  step="1" /></label
+              ><label
+                >Idle wakeups / second<input
+                  id="threshold-wakeups"
+                  type="number"
+                  min="1"
+                  max="100000"
+                  step="1"
+              /></label>
+            </div>
+            <button class="button" id="apply-thresholds">Apply thresholds</button>
+            <button class="quiet" id="reset-thresholds">Use defaults</button>
+            <p class="small" id="threshold-feedback" role="status"></p>
+          </article>
+          <article class="card">
+            <h2>Appearance &amp; exports</h2>
+            <label class="setting"
+              >Theme<select id="theme">
+                <option value="system">Match your Mac</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select></label
+            >
+            <p class="small">
+              Pins and preferences are saved in this browser when local storage is available.
+            </p>
+            <div class="button-row">
+              <button class="button" id="export-json">Export full snapshot</button
+              ><button class="button" id="print">Print / save PDF</button>
+            </div>
+            <p class="small">
+              Export this list respects filters, sort order, and your review thresholds. The full
+              snapshot preserves the collected data and the default analysis.
+            </p>
+          </article>
+        </div>
+        <article class="card guide">
+          <h2>Measurements, actions &amp; limits</h2>
+          <details open>
+            <summary>CPU averages, peaks, and short bursts</summary>
+            <p>
+              The first reading is discarded because it has no prior interval. Averages use observed
+              intervals; peaks show the highest interval, not an instantaneous maximum. The overall
+              CPU card measures all logical cores on a 0–100% scale. Each process uses 100% for one
+              core. A short burst can be useful work. A process seen only once may have no usable
+              CPU reading.
+            </p>
+          </details>
+          <details>
+            <summary>Memory footprint, RSS, and memory growth</summary>
+            <p>
+              Footprint is macOS’s physical footprint, including compressed allocations. Resident
+              memory (RSS) is a different reading from ps, collected just after the sample; it
+              excludes compressed allocations and can count shared pages. App totals combine helpers
+              and are approximate. In-sample group trends cover helpers still present in the final
+              reading; exited helpers are outside these curves. Within-sample changes can reflect a
+              changing set of helpers; changes between scans compare groups by executable/app path
+              and user. Growth across a short sample does not prove a leak. Use memory pressure and
+              active swap transfers for context.
+            </p>
+          </details>
+          <details>
+            <summary>Power, sleep assertions, network, and disk</summary>
+            <p>
+              Power proxy is top’s POWER score: CPU activity plus idle wakeups. It is not watts or
+              Activity Monitor Energy Impact and does not include GPU, disk, or networking energy.
+              Kernel wakeups remain visible for context but do not drive review priority. Sleep
+              assertions can be normal during calls, playback, backups, or an active display.
+              Network rates cover en interfaces and exclude loopback, VPN, and peer-to-peer
+              interfaces to reduce duplicate accounting. Disk counters are rounded iostat counters,
+              with reads and writes combined. Exposed devices can include disk images. These rates
+              are system/device measurements, not per-process I/O.
+            </p>
+          </details>
+          <details>
+            <summary>How priority works</summary>
+            <p>
+              The score is the highest of average CPU, footprint, power, and wakeups divided by
+              twice their configured review threshold. Add 0.25 for an idle-system-sleep blocker,
+              and 0.50 if memory pressure is elevated and footprint crosses the memory threshold. A
+              score of 1 or more is High. Other threshold crossings or CPU bursts are Review. These
+              are investigation hints. Custom thresholds are browser preferences; the saved snapshot
+              retains default analysis.
+            </p>
+          </details>
+          <details>
+            <summary>History, privacy, and scan controls</summary>
+            <p>
+              The script keeps the latest 40 group-level scans by default, in Mac Resource
+              History.json beside the dashboard. --history changes the limit to 1–120. History
+              belongs to this report folder and is checked against RAM, CPU count, and user ID;
+              avoid mixing reports from different Macs. Process comparisons use paths and users, not
+              PIDs, because PIDs can be reused. Pins track owning apps; all same-app helpers may
+              share a pin in process view. A browser cannot start a native scanner from this offline
+              file: use the supplied launcher or copy a command from Scan options. Refreshing the
+              page alone does not collect data. Watch mode refreshes the page without resetting your
+              view, with pause controls and a visible scan age. No information is uploaded; raw
+              network addresses are omitted from exports. Process paths and assertion descriptions
+              are included, so review reports before sharing.
+            </p>
+          </details>
+          <p class="small">
+            References:
+            <a
+              href="https://support.apple.com/guide/activity-monitor/view-memory-usage-actmntr1004/mac"
+              target="_blank"
+              rel="noreferrer"
+              >Apple: memory</a
+            >
+            ·
+            <a
+              href="https://support.apple.com/guide/activity-monitor/view-energy-consumption-actmntr43697/mac"
+              target="_blank"
+              rel="noreferrer"
+              >Apple: energy</a
+            >
+            ·
+            <a
+              href="https://github.com/apple-oss-distributions/top/blob/main/power.c"
+              target="_blank"
+              rel="noreferrer"
+              >Apple’s power-score source</a
+            >.
+          </p>
+        </article>
+      </section>
+      <footer class="footer">
+        <span>Read-only scan · local files · no extra installs</span
+        ><span id="system-version"></span>
+      </footer>
+    </main>
+    <dialog id="inspect" aria-labelledby="inspect-title">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">Evidence &amp; next steps</p>
+          <h2 id="inspect-title"></h2>
+        </div>
+        <button class="quiet" data-close="inspect">Close</button>
+      </div>
+      <div id="inspect-body"></div>
+    </dialog>
+    <dialog id="rescan-dialog" aria-labelledby="rescan-title">
+      <div class="dialog-head">
+        <h2 id="rescan-title">Choose your next scan</h2>
+        <button class="quiet" data-close="rescan-dialog">Close</button>
+      </div>
+      <p>
+        Double-click Mac Resource Check.command for a detailed scan. It automatically opens the
+        completed dashboard. The optional Live Monitor launcher repeats scans until you press
+        Control-C in Terminal.
+      </p>
+      <div class="setting-grid">
+        <label
+          >Sample duration<select id="scan-duration">
+            <option value="4">Quick · 4 seconds</option>
+            <option value="12" selected>Balanced · 12 seconds</option>
+            <option value="30">Deeper · 30 seconds</option>
+            <option value="60">Extended · 60 seconds</option>
+          </select></label
+        ><label
+          >Repeat scans<select id="scan-repeat">
+            <option value="0">One snapshot</option>
+            <option value="30">Every 30 seconds</option>
+            <option value="60">Every 60 seconds</option>
+            <option value="120">Every 2 minutes</option>
+          </select></label
+        ><label
+          >Open in<select id="scan-browser">
+            <option value="default">Default browser</option>
+            <option value="safari">Safari</option>
+            <option value="chrome">Chrome</option>
+            <option value="firefox">Firefox</option>
+            <option value="edge">Edge</option>
+            <option value="brave">Brave</option>
+          </select></label
+        >
+      </div>
+      <p class="path command" id="watch-command"></p>
+      <button class="button primary" id="copy-watch">Copy scan command</button>
+      <p class="small" id="scan-note"></p>
+      <div class="button-row">
+        <button class="quiet" id="copy-open-dashboard">Copy reopen-dashboard command</button
+        ><button class="quiet" id="copy-output-folder">Copy report-folder path</button>
+      </div>
+    </dialog>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script id="resource-data" type="application/json">
+      __RESOURCE_DATA__
+    </script>
+    <script>
+      __RESOURCE_SCRIPT__;
+    </script>
+  </body>
+</html>

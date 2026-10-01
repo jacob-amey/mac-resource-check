@@ -1,0 +1,9 @@
+*.command
+docs/index.html
+tests/fixtures/demo.json
+artifacts/
+Reports/
+.test-output/
+node_modules/
+*.py
+*.sh

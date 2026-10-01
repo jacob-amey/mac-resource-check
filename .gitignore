@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+__pycache__/
+*.pyc
+.test-output/
+artifacts/
+Reports/
+**/Mac Resource Report.html
+**/Mac Resource Data.json
+**/Mac Resource List.csv
+**/Mac Resource History*.json
+**/.mac-resource-check.lock
+.env
+.env.*

@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.command linguist-generated=true
+docs/index.html linguist-generated=true
+tests/fixtures/demo.json linguist-generated=true
+*.svg text
